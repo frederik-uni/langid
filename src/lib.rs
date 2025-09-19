@@ -172,8 +172,9 @@ impl Model {
 
     fn instance2fv(&self, text: &str) -> Vec<u16> {
         let indexes = text
-            .chars()
-            .fold((0usize, Vec::new()), |(state, mut acc), letter| {
+            .as_bytes()
+            .iter()
+            .fold((0usize, Vec::new()), |(state, mut acc), &letter| {
                 let new_state = self.tk_nextmove[(state << 8) + letter as usize];
                 let new_state_u = new_state as usize;
                 let output = self.tk_output.get(&new_state).cloned().unwrap_or_default();
